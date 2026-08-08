@@ -11,13 +11,13 @@
  */
 public class Solution {
     public boolean hasCycle(ListNode head) {
-        HashMap<ListNode,Integer> map = new HashMap<>();
+        HashSet<ListNode> set = new HashSet<>();
         ListNode temp = head;
         while(temp != null){
-            map.put(temp,map.getOrDefault(temp,0)+1);
-            if(map.get(temp)>=2){
+            if(set.contains(temp)){
                 return true;
             }
+            set.add(temp);
             temp=temp.next;
         }
         return false;        
