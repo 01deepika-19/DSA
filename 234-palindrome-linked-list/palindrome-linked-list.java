@@ -10,21 +10,41 @@
  */
 class Solution {
 
+    static ListNode findmiddle(ListNode head){
+        ListNode slow=head;
+        ListNode fast=head;
+        while(fast.next != null && fast.next.next != null){
+            slow=slow.next;
+            fast=fast.next.next;
+        }
+        return slow;
+    }
+    static ListNode reverse(ListNode head){
+        ListNode temp=head;
+        ListNode prev=null;
+        ListNode front = null;
+        while(temp != null){
+            front=temp.next;
+            temp.next=prev;
+            prev=temp;
+            temp=front;
+        }
+        return prev;
+    }
     public boolean isPalindrome(ListNode head) {
-        Stack<Integer> s= new Stack<>();
-        ListNode temp = head;
-        while(temp != null){
-            s.push(temp.val);
-            temp=temp.next;
+      
+      ListNode middle = findmiddle(head);
+      ListNode newhead = reverse(middle.next);
+
+      ListNode first=head;
+      ListNode second=newhead;
+      while(second != null){
+        if(first.val != second.val){
+            return false;
         }
-        temp=head;
-        while(temp != null){
-            if(temp.val != s.pop()){
-                return false;
-            }
-            temp=temp.next;
-        }
-        return true;     
-    
+        first=first.next;
+        second=second.next;
+      }
+    return true;
     }
 }
