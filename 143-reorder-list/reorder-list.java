@@ -9,24 +9,48 @@
  * }
  */
 class Solution {
+
+    static ListNode findmiddle(ListNode head){
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast != null && fast.next != null){
+            slow=slow.next;
+            fast=fast.next.next;
+        }
+        return slow;
+    }
+    static ListNode reverse(ListNode head){
+        ListNode curr=head;
+        ListNode prev=null;
+        while(curr != null){
+            ListNode front = curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=front;
+        }
+        return prev;
+    }
     public void reorderList(ListNode head) {
-        
-        List<ListNode> list = new ArrayList<>();
-        ListNode temp=head;
-        while(temp != null){
-            list.add(temp);
-            temp=temp.next;
+
+        if(head == null || head.next == null){
+            return;
         }
+        ListNode middle = findmiddle(head);
+        ListNode second = middle.next;
+        middle.next=null;
+        second = reverse(second);
+        ListNode first = head;
 
-        int left=0,right=list.size()-1;
-        while(left < right){
+        while(second != null){
 
-            list.get(left).next = list.get(right);
-            left++;
-            list.get(right).next = list.get(left);
-            right--;
+            ListNode firstnext = first.next;
+            ListNode secnext = second.next;
+
+            first.next = second;
+            second.next=firstnext;
+
+            first=firstnext;
+            second = secnext;
         }
-        list.get(left).next=null;
-
     }
 }
