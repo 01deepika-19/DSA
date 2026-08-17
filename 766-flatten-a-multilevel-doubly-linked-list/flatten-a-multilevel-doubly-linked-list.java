@@ -10,32 +10,27 @@ class Node {
 
 class Solution {
     public Node flatten(Node head) {
-        if (head == null) {
-            return null;
+
+        if(head == null){return null;}
+
+        Node curr = head;
+        while(curr != null){
+            if(curr.child != null){
+                Node nextN = curr.next;
+                curr.next=flatten(curr.child);
+                curr.child=null;
+                curr.next.prev=curr;
+                
+                while(curr.next != null){
+                    curr=curr.next;
+                }
+                curr.next=nextN;
+                if(nextN != null){        
+                    nextN.prev=curr;
+                }
+            }
+            curr=curr.next;
         }
-        flattenDFS(head);
         return head;
     }
-    private Node flattenDFS(Node curr) {
-        Node last = curr;
-        while (curr != null) {
-            Node next = curr.next;
-            if (curr.child != null) {
-                Node childHead = curr.child;
-                Node childTail = flattenDFS(childHead);
-                curr.next = childHead;
-                childHead.prev = curr;
-                curr.child = null;
-                if (next != null) {
-                    childTail.next = next;
-                    next.prev = childTail;
-                }
-                 last = childTail;
-                }else {
-                last = curr;
-            }
-            curr = next;
-        }
-        return last;
-
-}}
+}
