@@ -1,25 +1,22 @@
 class Solution {
     public List<String> letterCombinations(String digits) {
         List<String> ans = new ArrayList<>();
-        if (digits.length() == 0) {
-            return ans;
-        }
-        String[] map = {
-            "", "", "abc", "def", "ghi",
-            "jkl", "mno", "pqrs", "tuv", "wxyz"
-        };
-        generate(0, "", digits, map, ans);
+        String map[]={ "","", "abc" ,"def" ,"ghi","jkl","mno","pqrs","tuv","wxyz"};
+        StringBuilder sb = new StringBuilder();
+        generate(0,sb,digits,map,ans);
         return ans;
     }
-    private void generate(int index, String current,String digits, String[] map ,List<String> ans) {
-
-        if (index == digits.length()) {
-            ans.add(current);
+    private void generate(int index,StringBuilder sb,String digits,String map[],List<String> ans){
+        if(index==digits.length()){
+            ans.add(sb.toString());
             return;
         }
-        String letters = map[digits.charAt(index) - '0'];
-        for (char ch : letters.toCharArray()) {
-            generate(index+1,current+ch, digits, map, ans);
+        String letters = map[digits.charAt(index)- '0'];
+        for(char ch : letters.toCharArray()){
+            sb.append(ch);
+            generate(index+1,sb,digits,map,ans);
+            sb.deleteCharAt(sb.length()-1);
         }
     }
+
 }
