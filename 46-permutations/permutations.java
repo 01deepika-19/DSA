@@ -1,12 +1,11 @@
 class Solution {
     public List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> ans = new ArrayList<>();
-        boolean used[]=new boolean[nums.length];
-        solve(nums,used,new ArrayList<>(),ans);
+        solve(nums,new ArrayList<>(),ans);
         return ans;
     }
 
-    private void solve(int nums[],boolean used[],List<Integer> p,List<List<Integer>> ans){
+    private void solve(int nums[],List<Integer> p,List<List<Integer>> ans){
 
         if(p.size()==nums.length){
             ans.add(new ArrayList<>(p));
@@ -14,16 +13,17 @@ class Solution {
         }
 
         for(int i = 0;i<nums.length;i++){
-            if(used[i]){
+            if(nums[i]==-11){
                 continue;
             }
 
             p.add(nums[i]);
-            used[i]=true;
+            int s = nums[i];
+            nums[i]=-11;
 
-            solve(nums,used,p,ans);
+            solve(nums,p,ans);
 
-            used[i]=false;
+            nums[i]=s;
             p.remove(p.size()-1);
         }
     }
