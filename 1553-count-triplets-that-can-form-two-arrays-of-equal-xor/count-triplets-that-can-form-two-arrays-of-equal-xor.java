@@ -1,18 +1,18 @@
 class Solution {
     public int countTriplets(int[] arr) {
         int cnt = 0;
-        int prefixXor[]=new int[arr.length];
-        prefixXor[0]=arr[0];
-        for(int i = 1;i<arr.length;i++){
-            prefixXor[i]=prefixXor[i-1]^arr[i];
-        }
-
+        int xor = 0;
+        HashMap<Integer,Integer> count = new HashMap<>();
+        HashMap<Integer,Integer> sum = new HashMap<>();
+        count.put(0,1);
+        sum.put(0,0);
         for(int i = 0;i<arr.length;i++){
-            for(int k = i+1;k<arr.length;k++){
-                if(((i==0 ? 0 : prefixXor[i-1]) ^ prefixXor[k]) == 0){
-                    cnt +=(k-i);
-                }
+            xor ^= arr[i];
+            if(count.containsKey(xor)){
+                cnt += count.get(xor)*i - sum.get(xor);
             }
+            count.put(xor,count.getOrDefault(xor,0)+1);
+            sum.put(xor,sum.getOrDefault(xor,0)+i+1);
         }
         return cnt;
     }
