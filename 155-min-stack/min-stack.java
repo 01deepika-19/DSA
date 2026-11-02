@@ -1,32 +1,43 @@
 class MinStack {
-    Deque<Integer> st ;
-    Deque<Integer> minSt ;
+    Deque<Long> st;
+    long min ;
     public MinStack() {
         st = new ArrayDeque<>();
-        minSt = new ArrayDeque<>();
     }
     
     public void push(int value) {
-        st.push(value);
-        if(minSt.isEmpty() || value <= minSt.peek()){
-            minSt.push(value);
+        if(st.isEmpty()){
+            st.push((long)value);
+            min=value;
+        }else if(value > min){
+            st.push((long)value);
+        }else{
+            long encoded = 2L*value-min;
+            st.push(encoded);
+            min=value;
         }
     }
     
     public void pop() {
-        int e = st.pop();
-        if(e==minSt.peek()){
-            minSt.pop();
+        if(st.peek()>min){
+            st.pop();
+        }else{
+            long encoded = st.pop();
+            long prevMin = 2L*min-encoded;
+            min=prevMin;
         }
-
     }
     
     public int top() {
-        return st.peek();
+        if(st.peek()>min){
+            return st.peek().intValue();
+        }else{
+            return (int)min;
+        }
     }
     
     public int getMin() {
-        return minSt.peek();
+        return (int)min;
     }
 }
 
