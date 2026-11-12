@@ -64,7 +64,6 @@ class LFUCache {
         if(curfreq == minF && curList.listSize == 0){
             minF++;
         }
-
         n.freq++;
         DLL newList = freqMap.getOrDefault(n.freq,new DLL());
         newList.addNode(n);
